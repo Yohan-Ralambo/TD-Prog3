@@ -16,7 +16,7 @@ public class StudentService {
         this.studentValidator = studentValidator;
     }
 
-    public static List<Student> createStudents(List<Student> students) {
+    public List<Student> createStudents(List<Student> students) {
 
         for (Student student : students) {
             studentValidator.validate(student);
