@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class SchoolCOntroller {
+public class StudentController {
 
     @GetMapping("/welcome")
     public ResponseEntity<String> welcome(@RequestParam String name) {
@@ -24,19 +24,18 @@ public class SchoolCOntroller {
     }
 
     private List<Student> students = new ArrayList<>();
+    private final StudentService studentService;
 
-    @PostMapping("/students")
-    public ResponseEntity<?> addStudent(@RequestBody Student student) {
-        try {
-            students.add(student);
-            return ResponseEntity
-            .status(HttpStatus.CREATED)
-                .body(student);
-        } catch (Exception e){
-            return ResponseEntity
-                    .status(500)
-                    .body("Erreur interne du serveur");
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
+    @PostMapping("/students")
+    public ResponseEntity<?> addStudent(
+            @RequestBody List<Student> newStudents) {
+        List<Student> result = studentService.createStudents(newStudents);
+        return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(result);
 }
 
     @GetMapping("/students")
